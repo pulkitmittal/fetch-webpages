@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd program
+docker image build -t fetch-webpages:latest .
+docker container run --rm -v ${PWD}:/fetch fetch-webpages:latest "$@"
+mv *.html ../
