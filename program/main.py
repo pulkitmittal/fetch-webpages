@@ -7,7 +7,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 
-from app.load_page import load_page
+from app.download_page import download_page
 from app.metadata import print_metadata
 
 if __name__ == '__main__':
@@ -20,14 +20,16 @@ if __name__ == '__main__':
                         help='URLs to fetch webpages for')
     parser.add_argument('--metadata', action='store_true',
                         help='print details about what was fetched')
+    parser.add_argument('--assets', action='store_true',
+                        help='download assets as well')
 
     args = parser.parse_args()
-    # print(args.urls)
-    # print(args.metadata)
 
     options = Options()
     options.add_argument("--headless")
     options.log.level = "trace"
+
+    print(os.path.join(sys.path[0], 'geckodriver.log'))
 
     driver = webdriver.Firefox(
         service=Service(
@@ -36,16 +38,12 @@ if __name__ == '__main__':
         ),
         options=options)
 
-    out_dir = './'
+    out_dir = os.path.join(sys.path[0], 'output')
     os.makedirs(out_dir, exist_ok=True)
 
     for url in args.urls:
-        contents = load_page(driver, url)
-        site = url.replace('https://', '').replace('http://', '')
-        filename = os.path.join(out_dir, site + '.html')
-        f = open(filename, "w")
-        f.write(contents)
-        f.close()
+        [site, contents] = download_page(
+            driver, url, out_dir, include_assets=args.assets)
 
         if args.metadata is True:
             print('------------------------------------------')

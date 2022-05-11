@@ -3,4 +3,5 @@ geckodriver.log
 *.pyc
 .wdm/
 paths.txt
+output/
 *.html

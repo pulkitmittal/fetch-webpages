@@ -16,7 +16,7 @@ Inside program folder, run main.py directly from command-line:
 
 ```bash
 $ cd program
-$ python3 main.py https://www.google.com https://www.github.com --metadata
+$ python3 main.py https://www.google.com https://www.github.com --metadata --assets
 ```
 
 ### Using Docker
@@ -26,7 +26,7 @@ Inside program folder, run using docker:
 ```bash
 $ cd program
 $ docker image build -t fetch-webpages:latest .
-$ docker container run --rm -v ${PWD}:/fetch fetch-webpages:latest https://www.google.com https://www.github.com --metadata
+$ docker container run --rm -v ${PWD}:/fetch fetch-webpages:latest https://www.google.com https://www.github.com --metadata --assets
 ```
 
 ### Using bash
@@ -34,5 +34,14 @@ $ docker container run --rm -v ${PWD}:/fetch fetch-webpages:latest https://www.g
 In the root folder, run using bash script:
 
 ```bash
-$ ./fetch https://www.google.com https://www.github.com --metadata
+$ ./fetch https://www.google.com https://www.github.com --metadata --assets
 ```
+
+#### Parameters
+
+- Include `--metadata` to include statistics about the webpage loaded
+- Include `--assets` to download assets (img, css, js, etc.) to the same folder (Note: currently only downloading `img` due to lack of time)
+
+#### Results
+
+- Each webpage is stored as a separate folder in `output` in the current directory.
